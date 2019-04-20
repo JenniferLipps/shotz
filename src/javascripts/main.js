@@ -1,3 +1,9 @@
 import '../styles/main.scss';
 
-console.error('word');
+import movies from './components/movies/movies';
+
+const init = () => {
+  movies.initializeMovies();
+};
+
+init();
