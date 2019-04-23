@@ -4,10 +4,36 @@ import './locations.scss';
 
 let locations = [];
 
+const shootTimeClass = (shootTime) => {
+  let selectedClass = '';
+  switch (shootTime) {
+    case 'Morning':
+      selectedClass = 'bg-secondary';
+      break;
+    case 'Afternoon':
+      selectedClass = 'bg-success';
+      break;
+    case 'Evening':
+      selectedClass = 'bg-info';
+      break;
+    case 'After Dark':
+      selectedClass = 'bg-danger';
+      break;
+    default:
+      selectedClass = '';
+  }
+  return selectedClass;
+};
+
 const domStringBuilder = () => {
   let domString = '';
   locations.forEach((location) => {
-    domString += `<h3>${location.name}</h3>`;
+    domString += `<div id=${location.id} class="card location col-2">`;
+    domString += `<div class="card-header ${shootTimeClass(location.shootTime)}">${location.name}</div>`;
+    domString += `<img src=${location.imageUrl}>`;
+    domString += `<div>${location.address}</div>`;
+    // domString += `<div>${location.shootTime}</div>`;
+    domString += '</div>';
   });
   util.printToDom('locations', domString);
 };
