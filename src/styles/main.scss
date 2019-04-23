@@ -2,6 +2,7 @@
 
 body {
   background-color: tomato;
+  margin: 5px;
 }
 
 #movies {
@@ -14,4 +15,7 @@ body {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+}
+#search-input {
+  margin: 5px;
 }
