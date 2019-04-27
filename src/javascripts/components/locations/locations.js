@@ -4,6 +4,8 @@ import './locations.scss';
 
 let locations = [];
 
+const getLocations = () => locations;
+
 const shootTimeClass = (shootTime) => {
   let selectedClass = '';
   switch (shootTime) {
@@ -32,44 +34,9 @@ const domStringBuilder = (locArray) => {
     domString += `<div class="card-header ${shootTimeClass(location.shootTime)}">${location.name}</div>`;
     domString += `<img src=${location.imageUrl}>`;
     domString += `<div>${location.address}</div>`;
-    // domString += `<div>${location.shootTime}</div>`;
     domString += '</div>';
   });
   util.printToDom('locations', domString);
-};
-
-const filterButtonEvent = (e) => {
-  const buttonId = e.target.id;
-  const darkLocations = locations.filter(x => x.shootTime === 'After Dark');
-  const morningLocations = locations.filter(x => x.shootTime === 'Morning');
-  const afternoonLocations = locations.filter(x => x.shootTime === 'Afternoon');
-  const eveningLocations = locations.filter(x => x.shootTime === 'Evening');
-  switch (buttonId) {
-    case 'morning':
-      domStringBuilder(morningLocations);
-      break;
-    case 'afternoon':
-      domStringBuilder(afternoonLocations);
-      break;
-    case 'evening':
-      domStringBuilder(eveningLocations);
-      break;
-    case 'dark':
-      domStringBuilder(darkLocations);
-      break;
-    default:
-      domStringBuilder(locations);
-  }
-};
-
-const filterByTextEvent = (e) => {
-  const searchText = e.target.value;
-  const searchLocations = locations.filter((x) => {
-    const hasName = x.name.includes(searchText);
-    const hasAddress = x.address.includes(searchText);
-    return hasName || hasAddress;
-  });
-  domStringBuilder(searchLocations);
 };
 
 const initializeLocations = () => {
@@ -78,14 +45,8 @@ const initializeLocations = () => {
       const locationResults = resp.data.locations;
       locations = locationResults;
       domStringBuilder(locations);
-      document.getElementById('dark').addEventListener('click', filterButtonEvent);
-      document.getElementById('afternoon').addEventListener('click', filterButtonEvent);
-      document.getElementById('evening').addEventListener('click', filterButtonEvent);
-      document.getElementById('morning').addEventListener('click', filterButtonEvent);
-      document.getElementById('all').addEventListener('click', filterButtonEvent);
-      document.getElementById('search-input').addEventListener('keyup', filterByTextEvent);
     })
     .catch(err => console.error(err));
 };
 
-export default { initializeLocations };
+export default { initializeLocations, domStringBuilder, getLocations };
